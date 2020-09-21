@@ -1,0 +1,57 @@
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+ion-content{
+    --background: #EAEDF3;
+    ion-row{
+        ion-text.title{
+            color: var(--ion-color-red);
+            font-family: "MontseMed";
+            font-size: 20px;
+        }
+        ion-select{
+            color: var(--ion-color-title);
+            font-family: "MontseMed";
+            font-size: 20px;
+        }
+    }
+    ngx-datatable{
+        margin: auto;
+        box-shadow: none !important;
+        border-radius: 8px;
+        border: 1px solid #C4C7DB;
+        width: 98% !important;
+        span.datatable-header-cell-label {
+            color: var(--ion-color-title);
+            font-family: "MontseMed";
+            font-size: 18px;
+        }
+        ion-text.message, ion-text.date-time{
+            font-family: "MontseLight";
+            color: var(--ion-color-text);
+            font-size: 14px;
+        }
+        div.agents-container{
+            display: flex;
+            ion-img.agents-imgs{
+                width: 31px;
+                margin-left: -5px;
+                border: 2px solid #fff;
+                border-radius: 50%;
+            }
+        }
+        
+    }
+    ion-row{
+        ion-img.img{
+            width: 37px;
+        }
+        ion-text.name{
+            font-family: "MontseMed";
+            font-size: 16px;
+            color: var(--ion-color-title);
+            padding-left: 13px;
+        }
+    }
+}

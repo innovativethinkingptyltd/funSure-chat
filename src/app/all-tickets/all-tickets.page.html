@@ -1,0 +1,77 @@
+<ion-header class="ion-hide-lg-up ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+			<ion-menu-button autoHide="false"></ion-menu-button>
+		</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-row class="ion-margin-top ion-margin-start"> 
+    <ion-text class="title">Tickets</ion-text>
+  </ion-row>
+
+  <ion-row class="ion-margin-top"> 
+    <ion-select value="Assigned to you" cancelText="Dismiss">
+      <ion-select-option value="All">All</ion-select-option>
+      <ion-select-option value="Assigned to you">Assigned to you</ion-select-option>
+      <ion-select-option value="Unassigned">Unassigned</ion-select-option>
+    </ion-select>
+  </ion-row>
+
+  <ion-row class="ion-margin-top">
+    <ngx-datatable
+      style="width: 90%"
+      class="material"
+      [rows]="data"
+      columnMode="force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [limit]="5"
+      [scrollbarH]="true"
+      
+    >
+      <ngx-datatable-column
+        [width]="30"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+        [headerCheckboxable]="true"
+        [checkboxable]="true"
+      >
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Name" [width]="200">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-row class="ion-align-items-center">
+            <ion-img class="img" [src]="row.profile_pic"></ion-img>
+            <ion-text class="name">{{row.name}}</ion-text>
+          </ion-row>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Message" [width]="700">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <ion-text class="message"> {{value}} </ion-text>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Time" [width]="200">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <ion-text class="date-time"> {{value}} </ion-text>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Agents" [width]="100">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <div class="agents-container">
+            <ion-img class="agents-imgs" *ngFor="let val of value" [src]="val.profile_pic"></ion-img>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </ion-row>
+</ion-content>

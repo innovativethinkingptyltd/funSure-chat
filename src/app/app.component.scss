@@ -2,11 +2,28 @@ ion-menu ion-content {
   --background: var(--ion-item-background, var(--ion-background-color, #fff));
 }
 
-ion-menu.md ion-content {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 20px;
-  --padding-bottom: 20px;
+.menu-custom{
+  --width: 100px;
+  border-right: 2px solid #EAEDF3;
+}
+ion-split-pane{
+  --side-max-width: 100px;
+  --side-min-width: 100px;
+}
+ion-list-header{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 52px;
+  ion-text.logo{
+    font-size: 20px;
+    font-family: "MontseSemiBold";
+    color: var(--ion-color-red);
+  }
+  ion-text.sublogo{
+    font-size: 9.9px;
+    font-family: "MontseReg";
+    color: #B5B5B5;
+  }
 }
 
 ion-menu.md ion-list {
@@ -17,48 +34,28 @@ ion-menu.md ion-note {
   margin-bottom: 30px;
 }
 
-ion-menu.md ion-list-header,
-ion-menu.md ion-note {
-  padding-left: 10px;
+ion-menu ion-list-header,
+ion-menu ion-note {
+  padding-left: 0;
 }
 
-ion-menu.md ion-list#inbox-list {
-  border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
+
+ion-item{
+  --inner-padding-end: 16px;
+  min-height: 90px;
+  ion-icon{
+    margin: auto;
+    font-size: 20px;
+    //margin-bottom: 68px;
+  }
 }
 
-ion-menu.md ion-list#inbox-list ion-list-header {
-  font-size: 22px;
-  font-weight: 600;
-
-  min-height: 20px;
+ion-menu ion-item.selected ion-icon {
+  color: var(--ion-color-red);
 }
 
-ion-menu.md ion-list#labels-list ion-list-header {
-  font-size: 16px;
-
-  margin-bottom: 18px;
-
-  color: #757575;
-
-  min-height: 26px;
-}
-
-ion-menu.md ion-item {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  border-radius: 4px;
-}
-
-ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
-}
-
-ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
-
-ion-menu.md ion-item ion-icon {
-  color: #616e7e;
+ion-menu ion-item ion-icon {
+  color: #D9E3F3;
 }
 
 ion-menu.md ion-item ion-label {

@@ -1,0 +1,224 @@
+<ion-header class="ion-hide-lg-up">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+			<ion-menu-button autoHide="false"></ion-menu-button>
+		</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-no-padding">
+  <ion-row class="parent-row">
+    <ion-col sizeXs="12" sizeSm="3" [ngClass]="{'hide-msg-list' : !showMsgDrawer}" class="users-list ion-no-padding">
+        <ion-button class="ion-hide-sm-up drawer-btn" (click)="toggleClass()" >
+          <p class="close">></p>
+          <p class="open"><</p>
+        </ion-button>  
+        <ion-row class="head ion-margin-top">
+          <ion-text class="title">Messages</ion-text>
+          <ion-icon src="assets/icons/search.svg"></ion-icon>
+        </ion-row>
+        <ion-row class="filter">
+          <ion-row>
+            <ion-text class="all">All</ion-text>
+            <ion-text class="unread">Unread</ion-text>
+          </ion-row>
+          <ion-text class="mark-read">Mark all as read</ion-text>
+        </ion-row>
+        <ion-row *ngFor="let message of messages">
+            <ion-row class="container">
+              <ion-col sizeXs="2" class="picture">
+                <ion-img [src] = "message.profile_pic"></ion-img>
+              </ion-col>
+              <ion-col>
+                <ion-row class="info">
+                  <ion-text class="user">{{message.user}}</ion-text>
+                  <ion-text class="time">{{message.time}}</ion-text>
+                </ion-row>
+                <ion-row class="content">
+                  <ion-text>{{message.message}}</ion-text>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+        </ion-row>
+
+    </ion-col>
+
+    <ion-col sizeXs="12" sizeSm="6" class="main ion-no-padding">
+        <ion-row class="ion-margin-top ion-padding head">
+          <div class="container">
+            <ion-text class="user-name ion-margin-start">Ticket Title Goes Here</ion-text>
+            <ion-button>
+              <span>
+                Create New Ticket
+              </span>
+            </ion-button>
+            <ion-icon (click)="toggleInfoClass()"  name="information-circle-outline"></ion-icon>
+
+          </div>
+        </ion-row>
+
+        <ion-row class="ion-padding ion-margin-top ticket">
+            <ion-row class="ticket-header">
+              <ion-col sizeXs="2">
+                <ion-img src="assets/images/pic1.png"></ion-img>
+              </ion-col>
+              <ion-col  sizeXs="10">
+                <ion-text class="name">
+                  John Doe
+                </ion-text>
+                <ion-text class="email">
+                  johndoe@gmail.com
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ticket-body">
+              <ion-col offset="2" sizeXs="10">
+                <ion-text>
+                  Hi Support Team,<br>
+                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, <br>
+                  Thank You.
+                </ion-text>
+              </ion-col>
+            </ion-row>
+        </ion-row>
+
+        <ion-row class="input-container align-self-end">
+          <ion-col sizeXs="12" class="ion-padding-start ion-padding-top">
+            <ion-text class="replay-txt">
+              Reply via Email
+            </ion-text>
+          </ion-col>
+
+          <ion-col sizeXs="12" class="b-bottom ion-padding-start">
+            <ion-row>
+              <ion-text class="ion-padding-end to">
+                To:
+              </ion-text>
+              <ion-img src="assets/images/pic1.png"></ion-img>
+              <ion-text class="ion-padding-start email">johndoe@gmail.com</ion-text>
+            </ion-row>
+          </ion-col>
+
+          <ion-col sizeXs="12" class="ion-padding-start">
+            <ion-textarea rows="5" placeholder="Type Something Here..."></ion-textarea>
+          </ion-col>
+
+          <ion-col sizeXs="12" class="ion-padding-start ion-padding-end">
+            <ion-row class="input-footer">
+              <div class="text-options">
+                <ion-icon src="assets/icons/text.svg"></ion-icon>
+                <ion-icon src="assets/icons/attach.svg"></ion-icon>
+                <ion-icon src="assets/icons/link.svg"></ion-icon>
+                <ion-icon src="assets/icons/smile.svg"></ion-icon>
+              </div>
+
+              <ion-button>
+                <ion-icon src="assets/icons/send.svg"></ion-icon>
+                <span>
+                  Send
+                </span>
+              </ion-button>
+            </ion-row>
+          </ion-col>
+            
+        </ion-row>
+    </ion-col>
+
+    <ion-col id="info-drawer" [ngClass]="{'hide-info' : !showInfoDrawer}" sizeXs="12" sizeSm="3" class="user-details ion-no-padding">
+
+      <ion-row class="ion-margin-top ion-padding"> 
+        <ion-text class="title">Profile</ion-text>
+      </ion-row>
+      <ion-row class="ion-justify-content-center ion-margin-top ion-margin-bottom">
+        <ion-col sizeXs="12">
+          <ion-img [src]="user.picture"></ion-img>
+        </ion-col>
+        <ion-col sizeXs="12" class="ion-text-center ion-no-padding">
+          <ion-text class="user-name">{{user.name}}</ion-text>
+        </ion-col>
+        <ion-col sizeXs="12" class="ion-text-center ion-no-padding">
+          <ion-text class="user-address">{{user.address}}</ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="contact-details ion-margin-top ion-padding">
+        <ion-row class="details-container">
+          <ion-col sizeXs="1">
+            <ion-icon src="assets/icons/phone.svg"></ion-icon> 
+          </ion-col>
+          <ion-col sizeXs="11">
+            <ion-text>{{user.phone}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="details-container">
+          <ion-col sizeXs="1">
+            <ion-icon src="assets/icons/envelope.svg"></ion-icon> 
+          </ion-col>
+          <ion-col sizeXs="11">
+            <ion-text>{{user.email}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="details-container">
+          <ion-col sizeXs="1">
+            <ion-icon src="assets/icons/position.svg"></ion-icon> 
+          </ion-col>
+          <ion-col sizeXs="11">
+            <ion-text>{{user.full_address}}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-row>
+
+      <ion-row class="policy-details ion-margin-top ion-padding">
+        <ion-col sizeXs="12">
+          <ion-text class="policy-title">Ticket Details</ion-text>
+        </ion-col>
+        <ion-col sizeXs="12" class="detail-container">
+          <ion-text class="detail-title">
+            Ticket Number
+          </ion-text>
+          <ion-text class="detail-value">
+            {{user.ticket_details.ticket_number}}
+          </ion-text>
+        </ion-col>
+        <ion-col sizeXs="5.5" class="detail-container ion-margin-end">
+          <ion-text class="detail-title">
+            Created
+          </ion-text>
+          <ion-text class="detail-value">
+            {{user.ticket_details.created_at}}
+          </ion-text>
+        </ion-col>
+        <ion-col sizeXs="5.5" class="detail-container">
+          <ion-text class="detail-title">
+            Category
+          </ion-text>
+          <ion-text class="detail-value">
+            {{user.ticket_details.category}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-padding ion-margin-top agents">
+          <ion-col sizeXs="12">
+            <ion-text class="title">Agents</ion-text>
+          </ion-col>
+          <ion-col sizeXs="6">
+            <ion-card>
+              <ion-img src="assets/images/pic2.png"></ion-img>
+              <ion-text>
+                Carl Lewis
+              </ion-text>
+            </ion-card>
+          </ion-col>
+          <ion-col sizeXs="6">
+           <ion-card>
+              <ion-icon src="assets/icons/add.svg"></ion-icon>
+              <ion-text>
+                Add agent
+              </ion-text>
+            </ion-card>
+          </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

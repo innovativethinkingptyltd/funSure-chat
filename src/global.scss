@@ -24,3 +24,43 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/*Adding Montserat*/
+@font-face{
+    font-family: "MontseReg";
+    font-style: normal;
+    font-weight: normal;
+    src: url('assets/Fonts/Montserrat/Montserrat-Regular.ttf');
+}
+@font-face{
+    font-family: "MontseSemiBold";
+    font-style: normal;
+    font-weight: normal;
+    src: url('assets/Fonts/Montserrat/Montserrat-SemiBold.ttf');
+}
+@font-face{
+    font-family: "MontseMed";
+    font-style: normal;
+    font-weight: normal;
+    src: url('assets/Fonts/Montserrat/Montserrat-Medium.ttf');
+}
+@font-face{
+    font-family: "MontseBold";
+    font-style: normal;
+    font-weight: normal;
+    src: url('assets/Fonts/Montserrat/Montserrat-Bold.ttf');
+}
+@font-face{
+    font-family: "MontseLight";
+    font-style: normal;
+    font-weight: normal;
+    src: url('assets/Fonts/Montserrat/Montserrat-Light.ttf');
+}
+ion-button{
+    background: #2892E3;
+    span{
+        font-size: 14px;
+        font-family: "MontseLight";
+        color: #fff;
+    }
+}
