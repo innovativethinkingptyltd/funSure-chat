@@ -23,8 +23,8 @@
           </ion-row>
           <ion-text class="mark-read">Mark all as read</ion-text>
         </ion-row>
-        <ion-row *ngFor="let message of messages">
-            <ion-row class="container">
+        <ion-row *ngFor="let message of messages" (click)="selectChat(message)" >
+            <ion-row class="container" >
               <ion-col sizeXs="2" class="picture">
                 <ion-img [src] = "message.profile_pic"></ion-img>
               </ion-col>
@@ -44,8 +44,8 @@
     <ion-col sizeXs="12" sizeSm="6" class="main ion-no-padding">
         <ion-row class="ion-margin-top ion-padding head">
           <div class="container">
-            <ion-img [src]="user.picture"></ion-img>
-            <ion-text class="user-name ion-margin-start">{{user.name}}</ion-text>
+            <ion-img [src]="selectedChat.profile_pic"></ion-img>
+            <ion-text class="user-name ion-margin-start">{{selectedChat.user}}</ion-text>
           </div>
          
             <ion-icon (click)="toggleInfoClass()"  name="information-circle-outline"></ion-icon>
@@ -127,10 +127,10 @@
       </ion-row>
       <ion-row class="ion-justify-content-center ion-margin-top ion-margin-bottom">
         <ion-col sizeXs="12">
-          <ion-img [src]="user.picture"></ion-img>
+          <ion-img [src]="selectedChat.profile_pic"></ion-img>
         </ion-col>
         <ion-col sizeXs="12" class="ion-text-center ion-no-padding">
-          <ion-text class="user-name">{{user.name}}</ion-text>
+          <ion-text class="user-name">{{selectedChat.user}}</ion-text>
         </ion-col>
         <ion-col sizeXs="12" class="ion-text-center ion-no-padding">
           <ion-text class="user-address">{{user.address}}</ion-text>

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
+import {MessagesService} from 'src/app/services/messages/messages.service'
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.page.html',
@@ -19,7 +20,11 @@ export class MessagesPage implements OnInit {
   toUser: string = "HealthBot";
   start_typing: any;
   loader: boolean;
-  constructor() { 
+  chats: any = [];
+  selectedChat: any = {};
+  constructor(
+    private messageService: MessagesService
+  ) { 
 
     this.msgList = [
       {
@@ -113,12 +118,13 @@ export class MessagesPage implements OnInit {
 
   ngOnInit() {
     this.closeInfoDrawer()
+    this.selectedChat = this.messages[0];
   }
 
   toggleClass(){
     this.showMsgDrawer = !this.showMsgDrawer;
     if(this.showInfoDrawer){
-      this.showInfoDrawer = false
+      this.showInfoDrawer = false;
     }
   }
   toggleInfoClass(){
@@ -133,55 +139,24 @@ export class MessagesPage implements OnInit {
 
   closeInfoDrawer(){
     var drawer = document.getElementById('info-drawer');
-      document.addEventListener('click', function(event) {
-        var isInside = drawer.contains(event.target);
-        if(!isInside){
-          if(this.showInfoDrawer){
-           this.showInfoDrawer = false
-          }
+    document.addEventListener('click', function(event) {
+      var isInside = drawer.contains(event.target);
+      if(!isInside){
+        if(this.showInfoDrawer){
+          this.showInfoDrawer = false
         }
+      }
 
-      }.bind(this), false)
+    }.bind(this), false)
   }
-
-  sendMsg() {
-    if (this.user_input !== '') {
-      this.msgList.push({
-        userId: this.toUser,
-        userName: this.toUser,
-        userAvatar: "../../assets/images/pic1.png",
-        time: "12:01",
-        message: this.user_input,
-        id: this.msgList.length + 1
-      })
-      this.user_input = "";
-      this.scrollDown()
-      setTimeout(() => {
-        this.senderSends()
-      }, 500);
-
-    }
+  getAllChats() {
+    this.messageService.getAllMessageSenders().then((users)=>  {
+      console.log('these are the users');
+      console.log(users)
+    })
   }
-  senderSends() {
-    this.loader = true;
-    setTimeout(() => {
-      this.msgList.push({
-        userId: this.User,
-        userName: this.User,
-        userAvatar: "../../assets/images/pic2.png",
-        time: "12:01",
-        message: "Sorry, didn't get what you said. Can you repeat that please"
-      });
-      this.loader = false;
-      this.scrollDown()
-    }, 2000)
-    this.scrollDown()
+  selectChat(chat)  {
+    console.log(chat)
+    this.selectedChat = chat;
   }
-  scrollDown() {
-    setTimeout(() => {
-      this.content.scrollToBottom(50)
-    }, 50);
-  }
-
-
 }

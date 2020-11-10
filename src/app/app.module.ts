@@ -13,6 +13,11 @@ import { environment } from '../environments/environment';
 import {AuthenticationService} from '../app/services/authentication/authentication.service';
 import {PopupHelper} from './services/helpers/popup-helper';
 import {MessagesService} from './services/messages/messages.service';
+import { IonicStorageModule } from '@ionic/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { FIREBASE_CONFIG } from './app.firebase.config';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -20,6 +25,9 @@ import {MessagesService} from './services/messages/messages.service';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    IonicStorageModule.forRoot(),
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(FIREBASE_CONFIG),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [

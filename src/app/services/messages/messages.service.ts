@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { tick } from '@angular/core/testing';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
