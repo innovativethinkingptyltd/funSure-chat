@@ -6,10 +6,9 @@ import { IonContent } from '@ionic/angular';
   styleUrls: ['./messages.page.scss'],
 })
 export class MessagesPage implements OnInit {
-  msgList : Array<Object>;
+  msgList: Array<Object>;
   user: Object;
-  messages : Array<Object>;
-
+  messages: Array<Object>;
   public showMsgDrawer: Boolean = false;
   public showInfoDrawer: Boolean = false;
 

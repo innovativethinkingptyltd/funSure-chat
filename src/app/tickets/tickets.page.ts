@@ -65,7 +65,6 @@ export class TicketsPage implements OnInit {
         time: "3:00 PM",
         profile_pic: "assets/images/pic2.png"
       },
-      
     ] 
   }
 
@@ -95,11 +94,10 @@ export class TicketsPage implements OnInit {
         var isInside = drawer.contains(event.target);
         if(!isInside){
           if(this.showInfoDrawer){
-           this.showInfoDrawer = false
+            this.showInfoDrawer = false
           }
         }
 
       }.bind(this), false)
   }
-
 }

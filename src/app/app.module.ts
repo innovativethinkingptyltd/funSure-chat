@@ -10,7 +10,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-
+import {AuthenticationService} from '../app/services/authentication/authentication.service';
+import {PopupHelper} from './services/helpers/popup-helper';
+import {MessagesService} from './services/messages/messages.service';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -23,6 +25,9 @@ import { environment } from '../environments/environment';
   providers: [
     StatusBar,
     SplashScreen,
+    AuthenticationService,
+    PopupHelper,
+    MessagesService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
