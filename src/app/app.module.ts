@@ -17,7 +17,10 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { FIREBASE_CONFIG } from './app.firebase.config';
-
+import { ToastService} from './services/toast/toast.service';
+import { WindowService} from './services/window-service/window-service.service'; 
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -27,6 +30,10 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     AppRoutingModule,
     IonicStorageModule.forRoot(),
     AngularFireAuthModule,
+    AngularFireModule,
+    AngularFireAuthModule,
+    AngularFireStorageModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
@@ -36,6 +43,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     AuthenticationService,
     PopupHelper,
     MessagesService,
+    ToastService,
+    WindowService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

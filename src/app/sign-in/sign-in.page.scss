@@ -1,0 +1,104 @@
+ion-header{
+    ion-toolbar{
+        --background: transparent;
+        ion-buttons{
+            ion-icon{
+                font-size: 24px;
+                color: #fff;
+            }
+        }
+    }
+    ion-img{
+        max-width: 80px;
+        margin: auto;
+    }
+}
+ion-content{
+    --padding-start: 15px;
+    --padding-end: 15px;
+    ion-row{
+        ion-col{
+            ion-text.title{
+                font-family: "LatoBold";
+                font-size: 30px;
+                color: var(--ion-color-title);
+            }
+            ion-text.intro{
+                font-family: "LatoReg";
+                font-size: 16px;
+                color: var(--ion-color-text);
+            }
+            ion-checkbox{
+                --border-radius: 4px;
+                width: 13px;
+                height: 13px;
+            }
+            ion-label{
+                font-family: "LatoReg";
+                font-size: 12px;
+                color: var(--ion-color-text);
+            }
+            ion-text.forgot{
+                font-family: "LatoReg";
+                font-size: 12px;
+                color: var(--ion-color-primary);
+                width: 100%;
+                text-align: right;
+            }
+        }
+        ion-button.login-btn{
+            width: 100%;
+            border-radius: 20%;
+            // --background: linear-gradient(to left, var(--ion-color-gradient-primary) , var(--ion-color-gradient-secondary));
+        }
+        p{
+            width: 100%; 
+            text-align: center; 
+            line-height: 0.1em;
+            margin: 10px 0 20px;
+            /*Start create the dashed line */
+            background-image: linear-gradient(to right, transparent 50%, #A6BCD0 50%);
+            background-size: 10px;
+            /*End*/
+        } 
+         
+        p span{ 
+             background:#fff; 
+             padding:0 5px; 
+             color: #A6BCD0;
+        }
+        ion-button.google{
+            width: 100%;
+            margin-right: 5px;
+            --background: #F94747;
+            span{
+                font-size: 14px;
+                font-family: "LatoReg";
+            }
+        }
+        ion-button.facebook{
+            width: 100%;
+            margin-left: 5px;
+            --background: #3958D5;
+            span{
+                font-size: 14px;
+                font-family: "LatoReg";
+            }
+        }
+    }
+}
+ion-footer{
+    background: white;
+    padding-bottom: 30px;
+    ion-row{
+        ion-text{
+            color: var(--ion-color-text);
+            font-size: 14px;
+            font-family: "LatoReg";
+        }
+        ion-text.register{
+            margin-left: 5px;
+            color: var(--ion-color-primary);
+        }
+    }
+}

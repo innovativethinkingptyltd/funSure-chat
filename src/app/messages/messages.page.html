@@ -23,95 +23,58 @@
           </ion-row>
           <ion-text class="mark-read">Mark all as read</ion-text>
         </ion-row>
-        <ion-row *ngFor="let message of messages" (click)="selectChat(message)" >
-            <ion-row class="container" >
+        <ion-row *ngFor="let user of listOfUsers" (click)="select(user)">
+            <ion-row class="container">
               <ion-col sizeXs="2" class="picture">
-                <ion-img [src] = "message.profile_pic"></ion-img>
+                <ion-img *ngIf="user.profile_pic" [src] = "user.profile_pic"></ion-img>
+                <ion-img *ngIf="!user.profile_pic" [src] = "user.picture"></ion-img>
+
               </ion-col>
               <ion-col>
                 <ion-row class="info">
-                  <ion-text class="user">{{message.user}}</ion-text>
-                  <ion-text class="time">{{message.time}}</ion-text>
+                  <ion-text class="user">{{user.name}}</ion-text>
+                  <!-- <ion-text class="time">{{message.time}}</ion-text> -->
                 </ion-row>
-                <ion-row class="content">
-                  <ion-text>{{message.message}}</ion-text>
+                <ion-row class="content" *ngIf="user.lastMessage">
+                  <ion-text>{{user.lastMessage.message}}</ion-text>
                 </ion-row>
               </ion-col>
             </ion-row>
         </ion-row>
+
     </ion-col>
 
     <ion-col sizeXs="12" sizeSm="6" class="main ion-no-padding">
         <ion-row class="ion-margin-top ion-padding head">
           <div class="container">
-            <ion-img [src]="selectedChat.profile_pic"></ion-img>
-            <ion-text class="user-name ion-margin-start">{{selectedChat.user}}</ion-text>
+            <ion-img *ngIf="selectedUser.profile_pic" [src]="selectedUser.profile_pic"></ion-img>
+            <ion-img *ngIf="!selectedUser.profile_pic" [src]="user.picture"></ion-img>
+
+            <ion-text class="user-name ion-margin-start">{{selectedUser.name}}</ion-text>
           </div>
          
             <ion-icon (click)="toggleInfoClass()"  name="information-circle-outline"></ion-icon>
 
         </ion-row>
 
-        <ion-row class="ion-padding ion-margin-top chat">
-          <ion-list>
-            <div *ngFor="let chat of msgList; let i = index; ">
-              <ion-row *ngIf="chat.userId == User">
-                <ion-col class="right" no-padding [ngClass]="{'clubbed':((msgList[i+1] && msgList[i+1].userId != chat.userId)|| !msgList[i+1])}">
-                  <div class="imageAvatarRight">
-                    <div class="imageAvatarBottom">
-                      <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].userId == chat.userId)?'hidden':''">
-                
-                        <ion-img [src]="chat.userAvatar"></ion-img>
-                      </ion-avatar>
-                    </div>
-                    <ion-label color="light">
-                      <div class="chatDiv" [ngClass]="{'sharper':((msgList[i+1] && msgList[i+1].userId == chat.userId) && 
-                      (msgList[i-1] && msgList[i-1].userId == chat.userId)),
-                      'sharper-top':(msgList[i-1] && msgList[i-1].userId == chat.userId),
-                      'sharper-bottom':(msgList[i+1] && msgList[i+1].userId == chat.userId)}">
-                        <p text-wrap padding>{{chat.message}}
-                        </p>
-                        
-                      </div>
-                      <ion-row class="time-container" *ngIf="((msgList[i+1] && msgList[i+1].userId != chat.userId)|| !msgList[i+1])">
-                        <ion-text>{{chat.time}}</ion-text>
-                    </ion-row>
-                    </ion-label>
-                  </div>
-                  
-                </ion-col>
-                
-              </ion-row>
-              <ion-row *ngIf="chat.userId == toUser">
-                <ion-col class="left" no-padding [ngClass]="{'clubbed':((msgList[i+1] && msgList[i+1].userId != chat.userId)|| !msgList[i+1])}">
-                  <div class="imageAvatarLeft">
-                    <ion-label color="light">
-                      <div class="chatDiv" [ngClass]="{'sharper':((msgList[i+1] && msgList[i+1].userId == chat.userId) && 
-                      (msgList[i-1] && msgList[i-1].userId == chat.userId)),
-                      'sharper-top':(msgList[i-1] && msgList[i-1].userId == chat.userId),
-                      'sharper-bottom':(msgList[i+1] && msgList[i+1].userId == chat.userId)}">
-                        <p text-wrap padding>{{chat.message}}</p>
-                      </div>
-                      <ion-row class="time-container" *ngIf="((msgList[i+1] && msgList[i+1].userId != chat.userId)|| !msgList[i+1])">
-                        <ion-text>{{chat.time}}</ion-text>
-                      </ion-row>
-                    </ion-label>
-                    <div class="imageAvatarBottom">
-                      <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].userId == chat.userId)?'hidden':''">
-                        <ion-img [src]="chat.userAvatar"></ion-img>
-                      </ion-avatar>
-                    </div>
-                  </div>
-                </ion-col>
-              </ion-row>
+        <ion-row class="ion-padding ion-margin-top chat" style="width: 100%;">
+          <ion-list style="width: 100%;">
+
+            <div *ngFor="let item of selectedMessageCollection" style="width: 100%;">
+              <div class="chat-bubble" style="clear: both; max-width: 100%;" *ngIf="item.userName == User" [ngStyle]="{'background-color': 'black'}">
+                <p>{{item.message}}</p>
+              </div>
+              <div class="chat-bubble-reply" style="float: right; clear: both; margin: 10px 5% 10px 0;" *ngIf="item.userName != User" [ngStyle]="{'background-color': 'blue' }">
+                <p>{{item.message}}</p>
+              </div>
             </div>
           </ion-list>
         </ion-row>
 
         <ion-row class="ion-padding input-container">
             <ion-icon class="attach" src="assets/icons/attach.svg"></ion-icon>
-            <ion-input placeholder="Type Something Here..."></ion-input>
-            <ion-button>
+            <ion-input placeholder="Type Something Here..." [(ngModel)]="user_input"></ion-input>
+            <ion-button (click)="sendMessage()">
               <ion-icon src="assets/icons/send.svg"></ion-icon>
               <span>
                 Send
@@ -127,13 +90,13 @@
       </ion-row>
       <ion-row class="ion-justify-content-center ion-margin-top ion-margin-bottom">
         <ion-col sizeXs="12">
-          <ion-img [src]="selectedChat.profile_pic"></ion-img>
+          <ion-img [src]="user.picture"></ion-img>
         </ion-col>
         <ion-col sizeXs="12" class="ion-text-center ion-no-padding">
-          <ion-text class="user-name">{{selectedChat.user}}</ion-text>
+          <ion-text class="user-name">{{selectedUser.name}}</ion-text>
         </ion-col>
         <ion-col sizeXs="12" class="ion-text-center ion-no-padding">
-          <ion-text class="user-address">{{user.address}}</ion-text>
+          <ion-text class="user-address">{{selectedUser.address}}</ion-text>
         </ion-col>
       </ion-row>
 
@@ -143,7 +106,7 @@
             <ion-icon src="assets/icons/phone.svg"></ion-icon> 
           </ion-col>
           <ion-col sizeXs="11">
-            <ion-text>{{user.phone}}</ion-text>
+            <ion-text>{{selectedUser.contactNumber}}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="details-container">
@@ -151,7 +114,7 @@
             <ion-icon src="assets/icons/envelope.svg"></ion-icon> 
           </ion-col>
           <ion-col sizeXs="11">
-            <ion-text>{{user.email}}</ion-text>
+            <ion-text>{{selectedUser.email}}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="details-container">
@@ -159,11 +122,11 @@
             <ion-icon src="assets/icons/position.svg"></ion-icon> 
           </ion-col>
           <ion-col sizeXs="11">
-            <ion-text>{{user.full_address}}</ion-text>
+            <ion-text>{{selectedUser.address}}</ion-text>
           </ion-col>
         </ion-row>
       </ion-row>
-
+<!-- 
       <ion-row class="policy-details ion-margin-top ion-padding">
         <ion-col sizeXs="12">
           <ion-text class="policy-title">Policy Details</ion-text>
@@ -192,17 +155,17 @@
             {{user.policy_details.premium}}
           </ion-text>
         </ion-col>
-      </ion-row>
+      </ion-row> -->
 
-      <ion-row class="ion-padding ion-margin-top benefits">
+      <ion-row class="ion-padding ion-margin-top benefits" *ngIf="selectedUser.device">
           <ion-col sizeXs="12">
-            <ion-text class="title">Benefits</ion-text>
+            <ion-text class="title">DeviceInformation</ion-text>
           </ion-col>
           <ion-col>
             <ul>
-              <li>Funeral</li>
-              <li>Repatariation</li>
-              <li>Paid-Up 85</li>
+              <li>{{selectedUser.device.id}}</li>
+              <li>{{selectedUser.device.id}}</li>
+              <li>{{selectedUser.device.id}}</li>
             </ul>
           </ion-col>
       </ion-row>

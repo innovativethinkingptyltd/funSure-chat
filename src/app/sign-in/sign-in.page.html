@@ -1,0 +1,59 @@
+<ion-header class="ion-justify-content-center ion-no-border  ion-padding-start">
+  <ion-toolbar class="no-border" mode="ios">
+    <!-- <ion-menu-button autoHide="false" slot="start"></ion-menu-button> -->
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-row>
+    <ion-col sizeXs="12">
+      <ion-text class="title">
+        Sign In
+      </ion-text>
+    </ion-col>
+    <ion-col sizeXs="12">
+      <ion-text class="intro">
+        Sign into your account to continue.
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col sizeXs="9">
+      <ion-input placeholder="Cellphone Number" type="number" [(ngModel)]="number"></ion-input>
+    </ion-col>
+    <ion-col sizeXs="3">
+      <ion-icon id="sign-in-button" (click)="verifyNumber()" name="sync-outline"></ion-icon>
+    </ion-col>
+    <ion-col sizeXs="9" *ngIf="showOtpCode">
+      <ion-input  placeholder="Otp Codes" type="text" [(ngModel)]="otpCode"></ion-input>
+    </ion-col>
+    <ion-col sizeXs="3" *ngIf="showOtpCode">
+      <ion-icon  (click)="submitVerif()" name="sync-outline"></ion-icon>
+    </ion-col>
+    <ion-col sizeXs="12" *ngIf="showOwnCode">
+      <ion-input  placeholder="your personal Code" type="number" [(ngModel)]="ownCode"></ion-input>
+    </ion-col>
+  </ion-row>
+
+
+
+  <ion-row *ngIf="showOwnCode" class="ion-margin-top">
+    <ion-button  class="login-btn" (click)="checkOwnCode()">
+      <span>Login</span>
+    </ion-button>
+  </ion-row>
+  
+  <ion-row class="ion-margin-top">
+    <p>
+      <span>Or</span>
+    </p>
+  </ion-row>
+  <div id="recaptcha-container"></div>
+
+</ion-content>
+<ion-footer class="ion-no-border">
+
+</ion-footer>

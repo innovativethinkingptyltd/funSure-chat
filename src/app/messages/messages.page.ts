@@ -1,15 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import {MessagesService} from 'src/app/services/messages/messages.service'
+import { PopupHelper } from '../services/helpers/popup-helper';
+import { LoadingService } from '../services/loading-service/loading.service';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
 })
 export class MessagesPage implements OnInit {
-  msgList: Array<Object>;
-  user: Object;
-  messages: Array<Object>;
+  msgList : Array<Object>;
+  user: any = {};
+  messages : Array<Object>;
+
   public showMsgDrawer: Boolean = false;
   public showInfoDrawer: Boolean = false;
 
@@ -20,46 +24,19 @@ export class MessagesPage implements OnInit {
   toUser: string = "HealthBot";
   start_typing: any;
   loader: boolean;
-  chats: any = [];
-  selectedChat: any = {};
+  listOfUsers: any = [];
+  selectedUser: any = {};
+  selectedMessageCollection: any = []
+  messSubsciption: Subscription;
+
   constructor(
-    private messageService: MessagesService
+    private messageService: MessagesService,
+    private popUp: PopupHelper,
+    private loading: LoadingService
   ) { 
 
-    this.msgList = [
-      {
-        userId: "Me",
-        userName: "Me",
-        userAvatar: "../../assets/images/pic1.png",
-        time: "3:00 PM 14 Sep 2020",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod",
-        id: 1,
-      },
-      {
-        userId: "HealthBot",
-        userName: "HealthBot",
-        userAvatar: "../../assets/images/pic2.png",
-        time: "3:00 PM 14 Sep 2020",
-        message: "Lorem ipsum dolor sit amet, consetetur ",
-        id: 3
-      },
-      {
-        userId: "Me",
-        userName: "Me",
-        userAvatar: "../../assets/images/pic1.png",
-        time: "3:00 PM 14 Sep 2020",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. ",
-        id: 4
-      },
-      {
-        userId: "HealthBot",
-        userName: "HealthBot",
-        userAvatar: "../../assets/images/pic2.png",
-        time: "3:00 PM 14 Sep 2020",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. ",
-        id: 5
-      }
-    ];
+    this.msgList = [];
+
 
     this.user= {
       name: "John Doe",
@@ -74,51 +51,13 @@ export class MessagesPage implements OnInit {
         premium: "R 50 P/M",
       }
     }
-
-    this.messages= [
-      {
-        user: "John Doe",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
-        time: "3:00 PM",
-        profile_pic: "assets/images/pic1.png"
-      },
-      {
-        user: "Christina",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
-        time: "3:00 PM",
-        profile_pic: "assets/images/pic2.png"
-      },
-      {
-        user: "Caleb George",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
-        time: "3:00 PM",
-        profile_pic: "assets/images/pic3.png"
-      },
-      {
-        user: "David Hurley",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
-        time: "3:00 PM",
-        profile_pic: "assets/images/pic4.png"
-      },
-      {
-        user: "Joel Barwick",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
-        time: "3:00 PM",
-        profile_pic: "assets/images/pic5.png"
-      },
-      {
-        user: "Christina",
-        message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
-        time: "3:00 PM",
-        profile_pic: "assets/images/pic2.png"
-      },
-      
-    ] 
   }
 
   ngOnInit() {
     this.closeInfoDrawer()
-    this.selectedChat = this.messages[0];
+    this.getUsers();
+    this.subscribeToLatestUser();
+
   }
 
   toggleClass(){
@@ -155,8 +94,55 @@ export class MessagesPage implements OnInit {
       console.log(users)
     })
   }
-  selectChat(chat)  {
-    console.log(chat)
-    this.selectedChat = chat;
+
+  getUsers()  {
+    this.messageService.getUsersInfo().then(userList=>  {
+      console.log(userList)
+      this.listOfUsers = userList;
+    }).catch(error =>  {
+      this.popUp.showError(error.toString());
+    })
+  }
+  subscribeToLatestUser() {
+    this.messageService.getLatestUserinfo().subscribe(newUsers=>  {
+      this.listOfUsers = newUsers;
+    }, (error: any)=> {
+      this.popUp.showError(error.toString())
+    })
+  }
+  composeMessage()  {
+    const promise = new Promise((resolve, reject)=> {
+      const mess = {
+        message: this.user_input,
+        uid: this.selectedUser.uid,
+        userName: 'Support',
+        time: new Date()
+      }
+      resolve(mess);
+    })
+    return promise;
+  }
+  select(user) {
+    this.selectedUser = user;
+    this.User = user.name;
+    if(this.messSubsciption)  {
+      this.messSubsciption.unsubscribe();
+    }
+    this.loading.present('loading...').then(() =>  {
+      this.messageService.getAllMessages(user.uid).then(messages => {
+        console.log('these are all messages...')
+        console.log(messages)
+        this.loading.dismiss().then(() =>  {
+          this.selectedMessageCollection = messages;
+          this.messSubsciption = this.messageService.getLatestMessages(user.uid).subscribe( messages => {
+            this.selectedMessageCollection  =messages;
+          });
+        });
+      }).catch(error => {
+        this.loading.dismiss().then(() =>  {
+          this.popUp.showError(error.toString());
+        });
+      });
+    });
   }
 }
