@@ -491,3 +491,51 @@ ion-content{
     
   }
 }
+.chat-bubble
+{
+    background: #231F20;
+    width: fit-content;
+    border-radius: 2px 16px 16px 16px;
+    padding: 10px;
+    margin: 5px 0;
+
+    p
+    {
+        color: white;
+        font-family: 'LLight';
+        margin: 0;
+    }
+
+}
+.chat-bubble-user
+{
+    background: #231F20;
+    width: fit-content;
+    border-radius: 16px 2px 16px 16px;
+    padding: 10px;
+    // margin: 5px 0;
+
+    p
+    {
+        color: black;
+        font-family: 'LLight';
+        margin: 0;
+    }
+
+}
+
+.chat-bubble-reply
+{
+    background: white;
+    width: fit-content;
+    border-radius: 16px 16px 2px 16px;
+    padding: 10px;
+    margin: 5px 0;
+
+    p
+    {
+        color: #231F20;
+        font-family: 'LLight';
+        margin: 0;
+    }
+}

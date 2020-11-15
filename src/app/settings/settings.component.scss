@@ -1,0 +1,16 @@
+ion-header{
+    height: 255px;
+    ion-toolbar{
+        --background: transparent;
+        ion-buttons{
+            ion-icon{
+                font-size: 24px;
+                color: #fff;
+            }
+        }
+    }
+    ion-img{
+        max-width: 80px;
+        margin: auto;
+    }
+}

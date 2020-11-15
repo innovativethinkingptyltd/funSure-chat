@@ -21,6 +21,7 @@ import { ToastService} from './services/toast/toast.service';
 import { WindowService} from './services/window-service/window-service.service'; 
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import {CheckMenu } from './services/check-menu/check-menu.service';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -45,6 +46,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     MessagesService,
     ToastService,
     WindowService,
+    CheckMenu,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -17,14 +17,19 @@ export class AppComponent implements OnInit {
       url: '/messages',
       icon: 'assets/icons/chat.svg'
     },
+    // {
+    //   title: 'Tickets',
+    //   url: '/tickets',
+    //   icon: 'assets/icons/ticket.svg'
+    // },
+    // {
+    //   title: 'Users',
+    //   url: '/users',
+    //   icon: 'assets/icons/user.svg'
+    // },
     {
-      title: 'Tickets',
-      url: '/tickets',
-      icon: 'assets/icons/ticket.svg'
-    },
-    {
-      title: 'Users',
-      url: '/users',
+      title: 'Settings',
+      url: '/settings',
       icon: 'assets/icons/user.svg'
     }
   ];

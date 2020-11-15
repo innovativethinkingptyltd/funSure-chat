@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -26,6 +27,7 @@ export class MessagesPage implements OnInit {
   loader: boolean;
   listOfUsers: any = [];
   selectedUser: any = {};
+  selectedUserInfo: any = {};
   selectedMessageCollection: any = []
   messSubsciption: Subscription;
 
@@ -97,6 +99,7 @@ export class MessagesPage implements OnInit {
 
   getUsers()  {
     this.messageService.getUsersInfo().then(userList=>  {
+      console.log('supposed to have user list')
       console.log(userList)
       this.listOfUsers = userList;
     }).catch(error =>  {
@@ -116,7 +119,7 @@ export class MessagesPage implements OnInit {
         message: this.user_input,
         uid: this.selectedUser.uid,
         userName: 'Support',
-        time: new Date()
+        time: new Date().toUTCString()
       }
       resolve(mess);
     })
@@ -132,17 +135,40 @@ export class MessagesPage implements OnInit {
       this.messageService.getAllMessages(user.uid).then(messages => {
         console.log('these are all messages...')
         console.log(messages)
-        this.loading.dismiss().then(() =>  {
-          this.selectedMessageCollection = messages;
-          this.messSubsciption = this.messageService.getLatestMessages(user.uid).subscribe( messages => {
-            this.selectedMessageCollection  =messages;
-          });
-        });
+        this.messageService.getUser(user.uid).then(currentUser => {
+          if(currentUser) {
+            this.selectedUserInfo = currentUser;
+            this.loading.dismiss().then(() =>  {
+              this.selectedMessageCollection = messages;
+              this.messSubsciption = this.messageService.getLatestMessages(user.uid).subscribe( messages => {
+                this.selectedMessageCollection  =messages;
+              });
+            });
+          }
+          else{
+            this.loading.dismiss().then(() => {
+              this.popUp.showError('there is something wrong with this users information').then(()=>  {
+              
+              })
+            })
+          }
+        })
       }).catch(error => {
         this.loading.dismiss().then(() =>  {
           this.popUp.showError(error.toString());
         });
       });
     });
+  }
+  sendMessage() {
+    this.composeMessage().then(mess =>  {
+      this.messageService.sendMessage(mess).then(()=>  {
+        this.popUp.showToast('message sent').then(()=>  {
+          this.user_input =  '';
+        })
+      }).catch((error)=> {
+        this.popUp.showError(error.toString())
+      })
+    })
   }
 }

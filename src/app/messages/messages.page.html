@@ -28,12 +28,11 @@
               <ion-col sizeXs="2" class="picture">
                 <ion-img *ngIf="user.profile_pic" [src] = "user.profile_pic"></ion-img>
                 <ion-img *ngIf="!user.profile_pic" [src] = "user.picture"></ion-img>
-
               </ion-col>
               <ion-col>
                 <ion-row class="info">
                   <ion-text class="user">{{user.name}}</ion-text>
-                  <!-- <ion-text class="time">{{message.time}}</ion-text> -->
+                  <!-- <ion-text class="time">{{user.time}}</ion-text> -->
                 </ion-row>
                 <ion-row class="content" *ngIf="user.lastMessage">
                   <ion-text>{{user.lastMessage.message}}</ion-text>
@@ -65,7 +64,7 @@
                 <p>{{item.message}}</p>
               </div>
               <div class="chat-bubble-reply" style="float: right; clear: both; margin: 10px 5% 10px 0;" *ngIf="item.userName != User" [ngStyle]="{'background-color': 'blue' }">
-                <p>{{item.message}}</p>
+                <p >{{item.message}}</p>
               </div>
             </div>
           </ion-list>
@@ -106,7 +105,7 @@
             <ion-icon src="assets/icons/phone.svg"></ion-icon> 
           </ion-col>
           <ion-col sizeXs="11">
-            <ion-text>{{selectedUser.contactNumber}}</ion-text>
+            <ion-text>{{selectedUserInfo.number}}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="details-container">
@@ -114,7 +113,7 @@
             <ion-icon src="assets/icons/envelope.svg"></ion-icon> 
           </ion-col>
           <ion-col sizeXs="11">
-            <ion-text>{{selectedUser.email}}</ion-text>
+            <ion-text>{{selectedUserInfo.email}}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="details-container">

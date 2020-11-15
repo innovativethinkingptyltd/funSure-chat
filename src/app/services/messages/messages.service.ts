@@ -131,4 +131,14 @@ export class MessagesService {
         })
         return observ
     }
+    public getUser(uid) {
+        const promise = new Promise((resolve, reject)=> {
+            this.afs.collection('users').ref.doc(uid).get().then(user=> {
+                resolve(user.data())
+            }).catch(error =>   {
+                reject(error.toString())
+            })
+        })
+        return promise;
+    }
 }
