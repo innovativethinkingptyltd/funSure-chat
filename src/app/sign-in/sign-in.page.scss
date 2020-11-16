@@ -17,6 +17,11 @@ ion-content{
     --padding-start: 15px;
     --padding-end: 15px;
     ion-row{
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        
+        align-items: center;
         ion-col{
             ion-text.title{
                 font-family: "LatoBold";
@@ -47,7 +52,7 @@ ion-content{
             }
         }
         ion-button.login-btn{
-            width: 100%;
+            width: 30%;
             border-radius: 20%;
             // --background: linear-gradient(to left, var(--ion-color-gradient-primary) , var(--ion-color-gradient-secondary));
         }
@@ -127,5 +132,13 @@ ion-footer{
     align-items: center;
     text-align: center; 
     width: 100%;
-    margin-top: 10%;
+    margin-top: 5%;
+
+}
+.loginHead  {
+    width: 100%; 
+    text-align: center; 
+    margin-top: 5%;
+    margin-bottom: 5%;
+    // background-color: #fff;
 }

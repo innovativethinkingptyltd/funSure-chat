@@ -3,9 +3,11 @@
     <ion-menu contentId="main-content" class="menu-custom" *ngIf="showMenu" >
       <div class="container" >
         <ion-list id="inbox-list">
-          <ion-list-header>
-            <ion-text class="logo">LOGO</ion-text>
+          <ion-list-header style="text-align: center;">
+            <div style="width: 80%; margin-left: 10%;">
+            <img src="assets/images/logo.svg">
             <ion-text class="sublogo">Fun Financial Services</ion-text>
+            </div>
           </ion-list-header>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">

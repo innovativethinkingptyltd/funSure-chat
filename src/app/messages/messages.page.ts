@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import {MessagesService} from 'src/app/services/messages/messages.service'
@@ -19,6 +19,7 @@ export class MessagesPage implements OnInit {
   public showInfoDrawer: Boolean = false;
 
   @ViewChild('IonContent') content: IonContent;
+  @ViewChild('scrollframe', {static: false}) scrollFrame: ElementRef;
 
   user_input: string = "";
   User: string = "Me";
@@ -32,6 +33,7 @@ export class MessagesPage implements OnInit {
   messSubsciption: Subscription;
   newMessages: any = [];
   slectedI= 0;
+  private scrollContainer: any;
 
   constructor(
     private messageService: MessagesService,
@@ -56,14 +58,27 @@ export class MessagesPage implements OnInit {
       }
     }
   }
-
-  ngOnInit() {
+  ngAfterViewInit(): void {
+    this.scrollContainer = this.scrollFrame.nativeElement;
     this.checkMenu.showMenu();
+    this.scrollToBottom();
+  }
+  ngOnInit() {
     this.closeInfoDrawer();
     this.getUsers();
     this.subscribeToLatestUser();
+    this.checkMenu.hideMenu();
+    this.checkMenu.showMenu();
   }
-
+  scrollToBottom(): void {
+    setTimeout(() => {
+      this.scrollContainer.scroll({
+        top: this.scrollContainer.scrollHeight,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }, 200);
+  }
   toggleClass(){
     this.showMsgDrawer = !this.showMsgDrawer;
     if(this.showInfoDrawer){
@@ -105,6 +120,7 @@ export class MessagesPage implements OnInit {
       console.log(userList)
       this.select(userList[0], 0)
       this.listOfUsers = userList;
+      this.checkMenu.showMenu();
     }).catch(error =>  {
       this.popUp.showError(error.toString());
     })
@@ -177,8 +193,10 @@ export class MessagesPage implements OnInit {
             this.selectedUserInfo = currentUser;
             this.loading.dismiss().then(() =>  {
               this.selectedMessageCollection = messages;
+              this.scrollToBottom();
               this.messSubsciption = this.messageService.getLatestMessages(user.uid).subscribe( messages => {
                 this.selectedMessageCollection  =messages;
+                this.scrollToBottom();
               });
             });
           }
@@ -202,6 +220,7 @@ export class MessagesPage implements OnInit {
       this.messageService.sendMessage(mess).then(()=>  {
         this.popUp.showToast('message sent').then(()=>  {
           this.user_input =  '';
+          this.scrollToBottom();
         })
       }).catch((error)=> {
         this.popUp.showError(error.toString())

@@ -31,6 +31,8 @@ export class SignInPage implements OnInit {
   user: any = {};
   windowRef:any;
   showRecapBox = true;
+  showVerifyNumber= true;
+  showVerifyCode= true;
 
   constructor(public loading: LoadingService,
               private afs: AngularFirestore,
@@ -61,11 +63,13 @@ export class SignInPage implements OnInit {
     if(this.number.toString().trim().length < 9) {
       return this.popUp.showError('invalid number')
     }
+    this.showVerifyNumber = false;
     this.sendLoginCode().then(() => {
       this.showRecapBox = false;
       this.showOtpCode = true;
     }).catch(error => {
       console.log(error);
+      this.showVerifyNumber = true;
       this.popUp.showError(error);
     })
   }
@@ -85,16 +89,18 @@ export class SignInPage implements OnInit {
     return promise;
   }
   submitVerif(){
+
     if(!this.otpCode) {
       return this.popUp.showError('please add the otp code that was sent to you')
     }
     if(this.otpCode.trim().length != 6) {
       return this.popUp.showError('the code you have added is in the wrong format')
     }
+    this.showVerifyCode = false;
     this.windowRef.confirmationResult.confirm(this.otpCode).then(async result=>
       {
       console.log(result)
-      this.popUp.showAlert('success',result).then(() => 
+      this.popUp.showToast('code accepted :)').then(() => 
       {
         this.loading.present('loading...').then(() => {
           this.setUser(result.user.uid);
@@ -103,6 +109,7 @@ export class SignInPage implements OnInit {
      })
      .catch(err=>{
       console.log('err2',err)
+      this.showVerifyCode = true;
       this.popUp.showError(err.toString())
      });
 }
@@ -110,6 +117,12 @@ export class SignInPage implements OnInit {
   setUser(uid)  {
     this.afs.collection('users').ref.doc(uid).get().then(user => {
       this.loading.dismiss().then(()=>  {
+        if(!user.data().role) {
+          return this.popUp.showError('unfortunatly you do not have authorization to access this application, Please contact admin to get access');
+        }
+        if(user.data().role.toLowerCase() !== 'support') {
+          return this.popUp.showError('unfortunatly you do not have authorization to access this application, Please contact admin to get access');
+        }
         this.storage.set('user', user.data()).then(() =>  {
           this.toast.show('your information has been retrieved').then(() => {
             this.showOwnCode = true;
@@ -117,6 +130,7 @@ export class SignInPage implements OnInit {
         });
       });
     }).catch(error =>{
+      this.showVerifyCode = true;
       this.popUp.showError(error)
     })
    }
@@ -126,6 +140,7 @@ export class SignInPage implements OnInit {
         if(this.ownCode == user.ownCode)  {
           this.toast.show('login successful :)').then(() => {
             this.loading.present('loggin in').then(() =>  {
+              this.checkMenu.showMenu();
               this.navCtrl.navigateForward('messages').then(() =>  {
                 this.loading.dismiss();
               });

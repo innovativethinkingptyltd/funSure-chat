@@ -1,12 +1,13 @@
-<!-- <ion-header class="ion-justify-content-center ion-no-border  ion-padding-start">
-  <ion-toolbar class="no-border" mode="ios">
+<ion-header class="ion-justify-content-center ion-no-border  ion-padding-start">
 
-  </ion-toolbar>
-</ion-header> -->
+  <div class="loginHead" > 
+    <img src="assets/images/logo.svg">
+  </div>
+</ion-header>
 
 <ion-content class="ion-padding">
 
-  <ion-row>
+  <ion-row style="margin-top: 5%;">
     <ion-col sizeXs="12" style="text-align: center;">
       <ion-text class="title" >
         Sign In
@@ -27,7 +28,8 @@
       </ion-item>
     </ion-col>
     <ion-col sizeXs="3">
-        <ion-icon id="sign-in-button" (click)="verifyNumber()" name="sync-outline"></ion-icon>
+        <ion-icon *ngIf="showVerifyNumber == true" id="sign-in-button" (click)="verifyNumber()" name="sync-outline"></ion-icon>
+        <ion-spinner *ngIf="(showVerifyNumber ==false)&& (showOtpCode ==false)" name="bubbles"></ion-spinner>
     </ion-col>
     <ion-col sizeXs="9" *ngIf="showOtpCode">
       <ion-item>
@@ -35,7 +37,8 @@
       </ion-item>
     </ion-col>
     <ion-col sizeXs="3" *ngIf="showOtpCode">
-      <ion-icon  (click)="submitVerif()" name="sync-outline"></ion-icon>
+      <ion-icon *ngIf="showVerifyCode == true" (click)="submitVerif()" name="sync-outline"></ion-icon>
+      <ion-spinner *ngIf="(showVerifyCode ==false)&& (showOwnCode ==false)" name="bubbles"></ion-spinner>
     </ion-col>
     <ion-col sizeXs="12" *ngIf="showOwnCode">
       <ion-item>
