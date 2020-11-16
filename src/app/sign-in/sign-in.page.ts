@@ -65,8 +65,8 @@ export class SignInPage implements OnInit {
       this.showRecapBox = false;
       this.showOtpCode = true;
     }).catch(error => {
-      console.log(error)
-      this.popUp.showError(error)
+      console.log(error);
+      this.popUp.showError(error);
     })
   }
 

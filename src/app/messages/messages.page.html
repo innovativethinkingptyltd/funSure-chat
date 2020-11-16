@@ -23,12 +23,27 @@
           </ion-row>
           <ion-text class="mark-read">Mark all as read</ion-text>
         </ion-row>
-        <ion-row *ngFor="let user of listOfUsers" (click)="select(user)">
-            <ion-row class="container">
-              <ion-col sizeXs="2" class="picture">
+        <ion-row style="width: 100%;" *ngFor="let user of listOfUsers; let i = index" (click)="select(user, i)">
+            <ion-row class="container" *ngIf="i != slectedI">
+              <!-- <ion-col sizeXs="2" class="picture">
                 <ion-img *ngIf="user.profile_pic" [src] = "user.profile_pic"></ion-img>
                 <ion-img *ngIf="!user.profile_pic" [src] = "user.picture"></ion-img>
+              </ion-col> -->
+              <ion-col>
+                <ion-row class="info">
+                  <ion-text class="user">{{user.name}}</ion-text>
+                  <!-- <ion-text class="time">{{user.time}}</ion-text> -->
+                </ion-row>
+                <ion-row class="content" *ngIf="user.lastMessage">
+                  <ion-text>{{user.lastMessage.message}}</ion-text>
+                </ion-row>
               </ion-col>
+            </ion-row>
+            <ion-row class="container2" *ngIf="i == slectedI">
+              <!-- <ion-col sizeXs="2" class="picture">
+                <ion-img *ngIf="user.profile_pic" [src] = "user.profile_pic"></ion-img>
+                <ion-img *ngIf="!user.profile_pic" [src] = "user.picture"></ion-img>
+              </ion-col> -->
               <ion-col>
                 <ion-row class="info">
                   <ion-text class="user">{{user.name}}</ion-text>
@@ -47,7 +62,7 @@
         <ion-row class="ion-margin-top ion-padding head">
           <div class="container">
             <ion-img *ngIf="selectedUser.profile_pic" [src]="selectedUser.profile_pic"></ion-img>
-            <ion-img *ngIf="!selectedUser.profile_pic" [src]="user.picture"></ion-img>
+            <ion-img *ngIf="!selectedUser.profile_pic" src="assets/images/person-circle-outline.svg"></ion-img>
 
             <ion-text class="user-name ion-margin-start">{{selectedUser.name}}</ion-text>
           </div>
@@ -89,7 +104,8 @@
       </ion-row>
       <ion-row class="ion-justify-content-center ion-margin-top ion-margin-bottom">
         <ion-col sizeXs="12">
-          <ion-img [src]="user.picture"></ion-img>
+          <ion-img *ngIf="selectedUser.profile_pic" [src]="user.picture"></ion-img>
+          <ion-img *ngIf="!selectedUser.profile_pic" src="assets/images/person-circle-outline.svg"></ion-img>
         </ion-col>
         <ion-col sizeXs="12" class="ion-text-center ion-no-padding">
           <ion-text class="user-name">{{selectedUser.name}}</ion-text>
@@ -105,7 +121,8 @@
             <ion-icon src="assets/icons/phone.svg"></ion-icon> 
           </ion-col>
           <ion-col sizeXs="11">
-            <ion-text>{{selectedUserInfo.number}}</ion-text>
+            <ion-text *ngIf="selectedUserInfo.number">{{selectedUserInfo.number}}</ion-text>
+            <ion-text *ngIf="!selectedUserInfo.number">contact number not found</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="details-container">
@@ -113,7 +130,8 @@
             <ion-icon src="assets/icons/envelope.svg"></ion-icon> 
           </ion-col>
           <ion-col sizeXs="11">
-            <ion-text>{{selectedUserInfo.email}}</ion-text>
+            <ion-text *ngIf="selectedUserInfo.email">{{selectedUserInfo.email}}</ion-text>
+            <ion-text *ngIf="!selectedUserInfo.email">email address not found </ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="details-container">
@@ -121,11 +139,21 @@
             <ion-icon src="assets/icons/position.svg"></ion-icon> 
           </ion-col>
           <ion-col sizeXs="11">
-            <ion-text>{{selectedUser.address}}</ion-text>
+            <ion-text *ngIf="selectedUser.address">{{selectedUser.address}}</ion-text>
+            <ion-text *ngIf="!selectedUser.address">address not found </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="details-container">
+          <ion-col sizeXs="1">
+            <ion-icon name="person-outline"></ion-icon>         
+           </ion-col>
+          <ion-col sizeXs="11">
+            <ion-text *ngIf="selectedUser.name && selectedUser.surname">{{selectedUser.name}} {{selectedUser.surname}}</ion-text>
+            <ion-text *ngIf="!selectedUser.name || !selectedUser.surname">full name not found </ion-text>
           </ion-col>
         </ion-row>
       </ion-row>
-<!-- 
+
       <ion-row class="policy-details ion-margin-top ion-padding">
         <ion-col sizeXs="12">
           <ion-text class="policy-title">Policy Details</ion-text>
@@ -134,27 +162,36 @@
           <ion-text class="detail-title">
             Policy Number
           </ion-text>
-          <ion-text class="detail-value">
-            {{user.policy_details.policy_number}}
+          <ion-text *ngIf="selectedUser.policyNumber" class="detail-value">
+            {{selectedUser.policyNumber}}
+          </ion-text>
+          <ion-text *ngIf="!selectedUser.policyNumber" class="detail-value2">
+            no policy found
           </ion-text>
         </ion-col>
         <ion-col sizeXs="5.5" class="detail-container ion-margin-end">
           <ion-text class="detail-title">
             Tenure
           </ion-text>
-          <ion-text class="detail-value">
-            {{user.policy_details.tenure}}
+          <ion-text *ngIf="selectedUser.tenture" class="detail-value">
+            {{selectedUser.tenure}}
+          </ion-text>
+          <ion-text *ngIf="!selectedUser.tenture" class="detail-value2">
+            no tenture found
           </ion-text>
         </ion-col>
         <ion-col sizeXs="5.5" class="detail-container">
           <ion-text class="detail-title">
             Premium
           </ion-text>
-          <ion-text class="detail-value">
-            {{user.policy_details.premium}}
+          <ion-text *ngIf="selectedUser.premium" class="detail-value">
+            {{selectedUser.premium}}
+          </ion-text>
+          <ion-text *ngIf="!selectedUser.premium" class="detail-value2">
+            No premium found
           </ion-text>
         </ion-col>
-      </ion-row> -->
+      </ion-row> 
 
       <ion-row class="ion-padding ion-margin-top benefits" *ngIf="selectedUser.device">
           <ion-col sizeXs="12">

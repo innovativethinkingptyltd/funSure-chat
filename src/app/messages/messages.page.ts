@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -31,6 +30,8 @@ export class MessagesPage implements OnInit {
   selectedUserInfo: any = {};
   selectedMessageCollection: any = []
   messSubsciption: Subscription;
+  newMessages: any = [];
+  slectedI= 0;
 
   constructor(
     private messageService: MessagesService,
@@ -102,6 +103,7 @@ export class MessagesPage implements OnInit {
     this.messageService.getUsersInfo().then(userList=>  {
       console.log('supposed to have user list')
       console.log(userList)
+      this.select(userList[0], 0)
       this.listOfUsers = userList;
     }).catch(error =>  {
       this.popUp.showError(error.toString());
@@ -109,10 +111,41 @@ export class MessagesPage implements OnInit {
   }
   subscribeToLatestUser() {
     this.messageService.getLatestUserinfo().subscribe(newUsers=>  {
-      this.listOfUsers = newUsers;
+      if(this.listOfUsers.length > 0 && this.listOfUsers.length == newUsers.length){
+        this.lookforNewUnseenMessages(this.listOfUsers, newUsers).then(() =>  {
+          console.log('done looking')
+          this.listOfUsers = newUsers;
+        });
+      }else {
+        this.listOfUsers = newUsers;
+      }
+
     }, (error: any)=> {
       this.popUp.showError(error.toString())
-    })
+    });
+  }
+  lookforNewUnseenMessages(prevUsers, users)  {
+    const promise = new Promise((resolve, reject) =>  {
+      let i = 0;
+      let len = users.length;
+      console.log('this is the legnth')
+      console.log(len)
+      users.forEach(user => {
+        if(prevUsers[i].lastMessage !== users.lastMessage)  {
+          console.log('found something different')
+          let x:any ={
+            name: user.name,
+            time: user.lastMessage.time
+          }
+          this.newMessages.push(x);
+        }
+        if(i == (len-1))  {
+          resolve()
+        }
+        i++;
+      });
+    });
+    return promise;
   }
   composeMessage()  {
     const promise = new Promise((resolve, reject)=> {
@@ -126,7 +159,10 @@ export class MessagesPage implements OnInit {
     })
     return promise;
   }
-  select(user) {
+  select(user, index) {
+    console.log('user coming through')
+    console.log(user)
+    this.slectedI = index;
     this.selectedUser = user;
     this.User = user.name;
     if(this.messSubsciption)  {
