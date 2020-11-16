@@ -102,3 +102,30 @@ ion-footer{
         }
     }
 }
+@media screen and (max-width: 600px) {
+    .loginDiv {
+      width: 90%;
+      text-align: center;
+    }
+}
+@media screen and (min-width: 600px) {
+    .loginDiv {
+      width: 50%;
+      text-align: center;
+    }
+}
+.recapchaBox    {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+    width: 100%;
+}
+.loginBox   {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+    width: 100%;
+    margin-top: 10%;
+}

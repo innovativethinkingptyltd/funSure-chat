@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { ToastService } from '../services/toast/toast.service';
 import { WindowService } from '../services/window-service/window-service.service';
-
+import {CheckMenu} from '../services/check-menu/check-menu.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -30,6 +30,7 @@ export class SignInPage implements OnInit {
   showOwnCode = false;
   user: any = {};
   windowRef:any;
+  showRecapBox = true;
 
   constructor(public loading: LoadingService,
               private afs: AngularFirestore,
@@ -40,11 +41,12 @@ export class SignInPage implements OnInit {
               public afAuth: AngularFireAuth,
               private router: Router,
               private toast: ToastService,
-              private windowService: WindowService
+              private windowService: WindowService,
+              private checkMenu: CheckMenu
               ) { }
 
   ngOnInit() {
-
+    this.checkMenu.hideMenu();
   }
   async ionViewWillEnter(){
     this.windowRef=await this.windowService.windowRef;
@@ -53,11 +55,14 @@ export class SignInPage implements OnInit {
   }
 
   verifyNumber() {
-
+    if(!this.number)  {
+      return this.popUp.showError('please add you number to proceed the login process')
+    }
     if(this.number.toString().trim().length < 9) {
       return this.popUp.showError('invalid number')
     }
     this.sendLoginCode().then(() => {
+      this.showRecapBox = false;
       this.showOtpCode = true;
     }).catch(error => {
       console.log(error)

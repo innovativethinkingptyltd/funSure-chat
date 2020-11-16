@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import {MessagesService} from 'src/app/services/messages/messages.service'
 import { PopupHelper } from '../services/helpers/popup-helper';
 import { LoadingService } from '../services/loading-service/loading.service';
+import {CheckMenu} from '../services/check-menu/check-menu.service';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.page.html',
@@ -34,11 +35,11 @@ export class MessagesPage implements OnInit {
   constructor(
     private messageService: MessagesService,
     private popUp: PopupHelper,
-    private loading: LoadingService
+    private loading: LoadingService,
+    private checkMenu: CheckMenu
   ) { 
 
     this.msgList = [];
-
 
     this.user= {
       name: "John Doe",
@@ -56,10 +57,10 @@ export class MessagesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.closeInfoDrawer()
+    this.checkMenu.showMenu();
+    this.closeInfoDrawer();
     this.getUsers();
     this.subscribeToLatestUser();
-
   }
 
   toggleClass(){

@@ -1,11 +1,11 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" class="menu-custom">
-      <div class="container">
+  <ion-split-pane contentId="main-content" >
+    <ion-menu contentId="main-content" class="menu-custom" *ngIf="showMenu" >
+      <div class="container" >
         <ion-list id="inbox-list">
           <ion-list-header>
             <ion-text class="logo">LOGO</ion-text>
-            <ion-text class="sublogo">Goes Here</ion-text>
+            <ion-text class="sublogo">Fun Financial Services</ion-text>
           </ion-list-header>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">

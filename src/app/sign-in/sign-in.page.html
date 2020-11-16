@@ -7,34 +7,42 @@
 <ion-content class="ion-padding">
 
   <ion-row>
-    <ion-col sizeXs="12">
-      <ion-text class="title">
+    <ion-col sizeXs="12" style="text-align: center;">
+      <ion-text class="title" >
         Sign In
       </ion-text>
     </ion-col>
-    <ion-col sizeXs="12">
+    <ion-col sizeXs="12" style="text-align: center;">
       <ion-text class="intro">
         Sign into your account to continue.
       </ion-text>
     </ion-col>
   </ion-row>
 
-  <ion-row>
-    <ion-col sizeXs="9">
-      <ion-input placeholder="Cellphone Number" type="number" [(ngModel)]="number"></ion-input>
+  <ion-row class="loginBox">
+    <div class="loginDiv">
+    <ion-col sizeXs="9" >
+      <ion-item>
+        <ion-input ion-input placeholder="Cellphone Number" type="number" [(ngModel)]="number"></ion-input>
+      </ion-item>
     </ion-col>
     <ion-col sizeXs="3">
-      <ion-icon id="sign-in-button" (click)="verifyNumber()" name="sync-outline"></ion-icon>
+        <ion-icon id="sign-in-button" (click)="verifyNumber()" name="sync-outline"></ion-icon>
     </ion-col>
     <ion-col sizeXs="9" *ngIf="showOtpCode">
-      <ion-input  placeholder="Otp Codes" type="text" [(ngModel)]="otpCode"></ion-input>
+      <ion-item>
+        <ion-input  placeholder="Otp Codes" type="text" [(ngModel)]="otpCode"></ion-input>
+      </ion-item>
     </ion-col>
     <ion-col sizeXs="3" *ngIf="showOtpCode">
       <ion-icon  (click)="submitVerif()" name="sync-outline"></ion-icon>
     </ion-col>
     <ion-col sizeXs="12" *ngIf="showOwnCode">
-      <ion-input  placeholder="your personal Code" type="number" [(ngModel)]="ownCode"></ion-input>
+      <ion-item>
+        <ion-input  placeholder="your personal Code" type="number" [(ngModel)]="ownCode"></ion-input>
+      </ion-item>
     </ion-col>
+  </div>
   </ion-row>
 
 
@@ -44,13 +52,9 @@
       <span>Login</span>
     </ion-button>
   </ion-row>
-  
-  <ion-row class="ion-margin-top">
-    <p>
-      <span>Or</span>
-    </p>
-  </ion-row>
-  <div id="recaptcha-container"></div>
+  <div class="recapchaBox" *ngIf="showRecapBox">
+    <div id="recaptcha-container"></div>
+  </div> 
 
 </ion-content>
 <ion-footer class="ion-no-border">
